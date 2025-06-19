@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design Dash</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="top-bar">🎉 Design a Birthday Poster!</div>
+
+  <div class="main-container">
+    <div class="canvas-area" id="canvas">
+      Drop items here!
+    </div>
+
+    <div class="tools-panel">
+      <h3>🧰 Tools</h3>
+      <div class="tool" draggable="true" data-type="text">🅰️ Text Box</div>
+      <div class="tool" draggable="true" data-type="image">📷 Image</div>
+      <div class="tool" draggable="true" data-type="square">🟩 Square</div>
+      <div class="tool" draggable="true" data-type="circle">⚪ Circle</div>
+      <div class="tool" draggable="true" data-type="triangle">🔺 Triangle</div>
+      <hr />
+      <button onclick="changeBackground()">🎨 Change Background</button>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <button class="btn" onclick="captureDesign()">✅ Submit</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
