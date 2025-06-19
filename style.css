@@ -9,11 +9,12 @@ body {
   padding: 10px;
   font-size: 18px;
   border-bottom: 1px solid #ddd;
+  text-align: center;
 }
 
 .main-container {
   display: flex;
-  height: calc(100vh - 50px);
+  height: calc(100vh - 100px);
 }
 
 .canvas-area {
@@ -21,9 +22,6 @@ body {
   margin: 10px;
   background: white;
   border: 2px dashed #ccc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: relative;
   overflow: hidden;
 }
@@ -42,4 +40,33 @@ body {
   border-radius: 5px;
   cursor: grab;
   text-align: center;
+}
+
+.element {
+  position: absolute;
+  padding: 5px 10px;
+  border: 1px solid #888;
+  background: #fff;
+  resize: both;
+  overflow: auto;
+  min-width: 50px;
+  min-height: 30px;
+  font-family: 'Comic Sans MS', cursive;
+}
+
+.bottom-bar {
+  background: #fff;
+  padding: 10px;
+  text-align: center;
+  border-top: 1px solid #ddd;
+}
+
+.btn {
+  padding: 8px 16px;
+  font-size: 16px;
+  background: #0078d4;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
