@@ -1,24 +1,14 @@
-document.querySelectorAll('.tool').forEach(tool => {
-  tool.addEventListener('dragstart', e => {
-    e.dataTransfer.setData('type', tool.dataset.type);
-  });
-});
-
 const canvas = document.getElementById('canvas');
 
-canvas.addEventListener('dragover', e => e.preventDefault());
-
-canvas.addEventListener('drop', e => {
-  e.preventDefault();
-  const type = e.dataTransfer.getData('type');
+function addElement(type) {
   let el = document.createElement('div');
   el.classList.add('element');
-  el.style.top = e.offsetY + 'px';
-  el.style.left = e.offsetX + 'px';
+  el.style.top = '50px';
+  el.style.left = '50px';
 
   if (type === 'text') {
     el.innerText = 'Edit text!';
-    el.setAttribute('contenteditable', true);
+    el.contentEditable = true;
   } else if (type === 'image') {
     const img = document.createElement('img');
     img.src = 'https://via.placeholder.com/100';
@@ -33,35 +23,37 @@ canvas.addEventListener('drop', e => {
     el = document.createElement('div');
     el.classList.add('shape-triangle');
     el.style.position = 'absolute';
-    el.style.top = e.offsetY + 'px';
-    el.style.left = e.offsetX + 'px';
+    el.style.top = '50px';
+    el.style.left = '50px';
   }
 
-  el.draggable = true;
-  el.addEventListener('dragstart', dragStart);
+  makeMovable(el);
   canvas.appendChild(el);
-});
-
-function dragStart(e) {
-  const style = window.getComputedStyle(e.target, null);
-  e.dataTransfer.setData("text/plain",
-    (parseInt(style.getPropertyValue("left"),10) - e.clientX) + ',' + 
-    (parseInt(style.getPropertyValue("top"),10) - e.clientY));
 }
 
-canvas.addEventListener('drop', function(e) {
-  const offset = e.dataTransfer.getData("text/plain").split(',');
-  const element = document.elementFromPoint(e.clientX, e.clientY);
-  if (element.classList.contains('element') || element.classList.contains('shape-triangle')) {
-    element.style.left = (e.clientX + parseInt(offset[0],10)) + 'px';
-    element.style.top = (e.clientY + parseInt(offset[1],10)) + 'px';
-    e.preventDefault();
-    return false;
-  }
-});
+function makeMovable(el) {
+  el.onmousedown = function (e) {
+    let shiftX = e.clientX - el.getBoundingClientRect().left;
+    let shiftY = e.clientY - el.getBoundingClientRect().top;
 
-function captureDesign() {
-  alert("Design captured! (This is a placeholder — use html2canvas to export image later.)");
+    function moveAt(pageX, pageY) {
+      el.style.left = pageX - shiftX + 'px';
+      el.style.top = pageY - shiftY + 'px';
+    }
+
+    function onMouseMove(event) {
+      moveAt(event.pageX, event.pageY);
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+
+    el.onmouseup = function () {
+      document.removeEventListener('mousemove', onMouseMove);
+      el.onmouseup = null;
+    };
+  };
+
+  el.ondragstart = () => false;
 }
 
 function changeBackground() {
@@ -69,4 +61,8 @@ function changeBackground() {
   const current = getComputedStyle(canvas).backgroundColor;
   let next = colors[(colors.indexOf(current) + 1) % colors.length] || colors[1];
   canvas.style.background = next;
+}
+
+function captureDesign() {
+  alert("Design captured! (You can use html2canvas to turn this into an image later.)");
 }
